@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-diff-compiler",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "packageManager": "pnpm@7.1.1",
   "description": "Register global imports on demand for Vite and Webpack",
   "license": "MIT",
@@ -52,7 +52,7 @@
     "lint": "eslint .",
     "play": "npm -C playground run dev",
     "prepublishOnly": "npm run build",
-    "release": "bumpp && npm publish",
+    "release": "nrm use npm && bumpp && npm publish",
     "start": "esno src/index.ts",
     "test": "vitest"
   },
