@@ -1,0 +1,37 @@
+// Vitest Snapshot v1
+
+exports[`fixtures > ./fixtures/basic.js 1`] = `
+"
+
+// #diff-compiler-start:basic
+console.log('Hello basic')
+// #diff-compiler-end:basic
+"
+`;
+
+exports[`fixtures > ./fixtures/vue3.vue 1`] = `
+"<script lang=\\"ts\\" setup>
+
+
+// #diff-compiler-start:vue3
+console.log('Hello vue3')
+// #diff-compiler-end:vue3
+</script>
+
+<template>
+
+  <!-- #diff-compiler-start:vue3 -->
+    <h1>vue3</h1>
+  <!-- #diff-compiler-end:vue3 -->
+</template>
+
+<style>
+
+/* #diff-compiler-start:vue3 */
+h1 {
+  color: blue;
+}
+/* #diff-compiler-end:vue3 */
+</style>
+"
+`;
