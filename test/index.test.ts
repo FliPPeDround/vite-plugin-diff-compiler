@@ -1,38 +1,25 @@
-import { describe, expect, it } from 'vitest'
-import { diffCompiler, getCodeInfo } from './../src/diffCompiler'
-import { comments } from './../mock/comments'
+import { describe, expect, test } from 'vitest'
+import {
+  diffCompiler,
+} from '../src/diffCompiler'
 
-describe('index', () => {
-  it.skip('should be work', () => {
-    const code = diffCompiler('const a = 1', 'web')
-    expect(code).toBe('const a = 1')
+describe('fixtures', async () => {
+  const files = import.meta.glob('./fixtures/*.{vue,js,ts}', {
+    eager: true,
+    as: 'raw',
   })
-  it('should be work', () => {
-    const source = `// #diff-complier-start:node
-    const a = 1
-    // #diff-complier-end:node
-    // #diff-complier-start:node
-    const b = 1
-    // #diff-complier-end:node 
-    `
-    const code = diffCompiler(source, 'node')
-    expect(code).toBe(`// #diff-complier-start:node
-    const a = 1
-    // #diff-complier-end:node
-    // #diff-complier-start:node
-    const b = 1
-    // #diff-complier-end:node 
-    `)
-    const diffCode = diffCompiler(source, 'web')
-    expect(diffCode).toBe(`
-    
-    `)
-  })
-})
 
-describe.skip('getComment', () => {
-  it('should be work', () => {
-    const result = getCodeInfo(comments, 'node')
-    expect(result).toMatchInlineSnapshot('')
-  })
+  for (const [id, code] of Object.entries(files)) {
+    test(id.replace(/\\/g, '/'), async () => {
+      // 获取文件名
+      const ext = id.split('.').at(-2)!.split('/').pop()!
+
+      const exec = () => diffCompiler(code, ext)
+      if (id.includes('error'))
+        expect(exec).toThrowErrorMatchingSnapshot()
+
+      else
+        expect(exec()).toMatchSnapshot()
+    })
+  }
 })

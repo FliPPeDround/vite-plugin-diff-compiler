@@ -1,51 +1,18 @@
-import { parse } from '@babel/parser'
-import type { CommentBlock, CommentLine } from '@babel/types'
 import MagicString from 'magic-string'
-
-type CodeInfo = {
-  start: number
-  end: number
-}[]
+import type { CodeInfo } from './types'
 
 function diffCompiler(code: string, mode: string) {
   const s = new MagicString(code)
-  const ast = parse(code, {
-    sourceType: 'unambiguous',
-    plugins: ['typescript', 'jsx', 'classProperties', 'decorators-legacy'],
-  })
 
-  if (ast?.comments!.length === 0)
-    return code
+  const CodeInfo = getCodeInfo(code, mode)
+  const newCode = computeDiffCode(CodeInfo, s)
 
-  const comments = getCodeInfo(ast!.comments!, mode)
-
-  const newCode = computeDiffCode(comments, s)
   return newCode
 }
 
-function getCodeInfo(comments: (CommentBlock | CommentLine)[], mode: string) {
-  // 正则匹配`#diff-complier-${start|end}: ${mode}`
-  const reg = /#diff-complier-(start|end):([\s\S]*)/
-  comments = comments.filter((comment) => {
-    return reg.test(comment.value)
-  })
-
-  // 通过正则获取comment.value的start和end
-  const commentsInfo = []
-  for (let i = 0; i < comments.length; i++) {
-    const comment = comments[i]
-    const result = comment.value.match(reg)!
-    const type = result[1]
-    const commentMode = result[2].trim()
-    if (commentMode !== mode) {
-      commentsInfo.push({
-        type,
-        mode,
-        start: comment.start!,
-        end: comment.end!,
-      })
-    }
-  }
+function getCodeInfo(code: string, mode: string) {
+  // 正则匹配`#diff-compiler-${start|end}: ${mode}`
+  const commentsInfo = getCommentsInfo()
 
   // 判断start和end是否成对出现
   if (commentsInfo.length % 2 !== 0)
@@ -72,6 +39,51 @@ function getCodeInfo(comments: (CommentBlock | CommentLine)[], mode: string) {
   }
 
   return codeInfo
+
+  function getCommentsInfo() {
+    const reg = /([^\n]*)#diff-compiler-(start|end):([^\n]*)/g
+    const result = [...code.matchAll(reg)]
+    // console.log(result)
+    const commentsInfo = []
+    for (let i = 0; i < result.length; i++) {
+      const comment = result[i]
+      // 通过comment[1]计算commentType
+      const commentStr = comment[1].trim()
+      // 通过commentStr计算commentType是html还是js还是css
+      const commentType = commentStr.startsWith('<')
+        ? 'html'
+        : commentStr.startsWith('//')
+          ? 'script'
+          : 'style'
+      const type = comment[2]
+      // 通过commentType计算commentMode
+      const commentModeStr = comment[3].trim()
+      const commentMode = getCommentMode(commentType, commentModeStr)?.trim()
+
+      const index = comment.index!
+      if (commentMode !== mode) {
+        commentsInfo.push({
+          commentType,
+          type,
+          mode: commentMode,
+          start: index,
+          end: index + comment[0].length,
+        })
+      }
+    }
+    return commentsInfo
+  }
+
+  function getCommentMode(commentType: string, commentModeStr: string) {
+    switch (commentType) {
+      case 'html':
+        return commentModeStr.replace('-->', '')
+      case 'script':
+        return commentModeStr
+      case 'style':
+        return commentModeStr.replace('*/', '')
+    }
+  }
 }
 
 function computeDiffCode(codeInfo: CodeInfo, s: MagicString) {

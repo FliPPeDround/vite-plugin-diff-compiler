@@ -3,17 +3,19 @@ import { createFilter } from '@rollup/pluginutils'
 import type { Options } from './types'
 import { diffCompiler } from './diffCompiler'
 
-function VitePluginDiffCompiler(options: Options): Plugin {
+function VitePluginDiffCompiler(options: Options = {}): Plugin {
   let config: any
   return {
     name: 'vit-plugin-diff-compiler',
-    enforce: 'post',
+    enforce: 'pre',
     configResolved(resolvedConfig) {
       config = resolvedConfig
     },
     transform(code: string, id: string) {
-      const include = /\.(js|tsx|vue|ts|tsx)/
-      const exclude = /node_modules/
+      const {
+        include = /\.(js|tsx|vue|ts|tsx)/,
+        exclude = /node_modules/,
+      } = options
 
       const filter = createFilter(include, exclude)
 

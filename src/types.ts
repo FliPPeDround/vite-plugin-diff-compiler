@@ -1,4 +1,11 @@
+import type { FilterPattern } from 'vite'
+
 export interface Options {
-  // define your plugin options here
-  mode: string[]
+  include?: FilterPattern
+  exclude?: FilterPattern
 }
+
+export type CodeInfo = {
+  start: number
+  end: number
+}[]
