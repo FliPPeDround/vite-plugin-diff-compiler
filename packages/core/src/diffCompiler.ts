@@ -4,21 +4,18 @@ import type { CodeInfo } from './types'
 function diffCompiler(code: string, mode: string) {
   const s = new MagicString(code)
 
-  const CodeInfo = getCodeInfo(code, mode)
-  const newCode = computeDiffCode(CodeInfo, s)
+  const codeInfo = getCodeInfo(code, mode)
+  const newCode = computeDiffCode(codeInfo, s)
 
   return newCode
 }
 
 function getCodeInfo(code: string, mode: string) {
-  // 正则匹配`#diff-compiler-${start|end}: ${mode}`
   const commentsInfo = getCommentsInfo()
 
-  // 判断start和end是否成对出现
   if (commentsInfo.length % 2 !== 0)
     throw new Error('start and end must be paired')
 
-  // 通过start和end，获取code的start和end
   const codeInfo: CodeInfo = []
   for (let i = 0; i < commentsInfo.length; i++) {
     const comment = commentsInfo[i]
@@ -33,9 +30,6 @@ function getCodeInfo(code: string, mode: string) {
         })
       }
     }
-    else {
-      continue
-    }
   }
 
   return codeInfo
@@ -43,20 +37,19 @@ function getCodeInfo(code: string, mode: string) {
   function getCommentsInfo() {
     const reg = /([^\n]*)#diff-compiler-(start|end):([^\n]*)/g
     const result = [...code.matchAll(reg)]
-    // console.log(result)
+
     const commentsInfo = []
     for (let i = 0; i < result.length; i++) {
       const comment = result[i]
-      // 通过comment[1]计算commentType
+
       const commentStr = comment[1].trim()
-      // 通过commentStr计算commentType是html还是js还是css
       const commentType = commentStr.startsWith('<')
         ? 'html'
         : commentStr.startsWith('//')
           ? 'script'
           : 'style'
       const type = comment[2]
-      // 通过commentType计算commentMode
+
       const commentModeStr = comment[3].trim()
       const commentMode = getCommentMode(commentType, commentModeStr)?.trim()
 
@@ -90,6 +83,7 @@ function computeDiffCode(codeInfo: CodeInfo, s: MagicString) {
   codeInfo.forEach((code) => {
     s.remove(code.start, code.end)
   })
+
   return s.toString()
 }
 

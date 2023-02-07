@@ -1,45 +1,47 @@
 {
+  "publisher": "FliPPeDround",
   "name": "vite-plugin-diff-compiler",
   "displayName": "vite-plugin-diff-compiler",
-  "description": "",
   "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.75.0"
+  "private": true,
+  "description": "vite-plugin-diff-compiler Heightlight for VS Code",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FliPPeDround/vite-plugin-diff-compiler",
+    "directory": "packages/vscode"
   },
   "categories": [
     "Other"
   ],
+  "main": "./dist/index.js",
+  "preview": true,
+  "engines": {
+    "vscode": "^1.71.0"
+  },
   "activationEvents": [
-    "onCommand:vite-plugin-diff-compiler.helloWorld"
+    "onStartupFinished"
   ],
-  "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "vite-plugin-diff-compiler.helloWorld",
-        "title": "Hello World"
+        "command": "diffCompiler.reload",
+        "title": "Reload diffCompiler"
       }
     ]
   },
   "scripts": {
-    "vscode:prepublish": "pnpm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "pnpm run compile && pnpm run lint",
-    "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "build": "tsup",
+    "dev": "tsup --watch src",
+    "publish": "esno ./scripts/publish.ts"
   },
   "devDependencies": {
-    "@types/vscode": "^1.75.0",
     "@types/glob": "^8.0.1",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
-    "@typescript-eslint/eslint-plugin": "^5.49.0",
-    "@typescript-eslint/parser": "^5.49.0",
-    "eslint": "^8.33.0",
+    "@types/vscode": "^1.75.0",
+    "@vscode/test-electron": "^2.2.2",
     "glob": "^8.1.0",
-    "mocha": "^10.1.0",
-    "typescript": "^4.9.4",
-    "@vscode/test-electron": "^2.2.2"
+    "mocha": "^10.1.0"
   }
 }
