@@ -1,5 +1,5 @@
 {
-  "name": "vite-plugin-diff-compiler",
+  "name": "diff-compiler",
   "type": "module",
   "version": "1.0.1",
   "packageManager": "pnpm@7.1.1",
@@ -19,54 +19,11 @@
     "diff-compiler",
     "transform"
   ],
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.js"
-    },
-    "./types": {
-      "types": "./dist/types.d.ts",
-      "require": "./dist/types.cjs",
-      "import": "./dist/types.js"
-    },
-    "./*": "./*"
-  },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*",
-        "./*"
-      ]
-    }
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch src",
-    "build:fix": "esno scripts/postbuild.ts",
-    "lint": "eslint .",
-    "play": "npm -C playground run dev",
-    "prepublishOnly": "npm run build",
-    "release": "bumpp && npm publish",
-    "start": "esno src/index.ts",
-    "test": "vitest"
-  },
   "dependencies": {
-    "@babel/generator": "^7.20.14",
-    "@babel/parser": "^7.20.15",
-    "@babel/traverse": "^7.20.13",
     "magic-string": "^0.27.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.33.1",
-    "@types/babel__generator": "^7.6.4",
-    "@types/babel__traverse": "^7.18.3",
     "@types/node": "^18.11.13",
     "bumpp": "^8.2.1",
     "chalk": "^5.2.0",

@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import {
   diffCompiler,
-} from '../package/core/src/diffCompiler'
+} from '../src/diffCompiler'
 
 describe('fixtures', async () => {
   const files = import.meta.glob('./fixtures/*.{vue,js,ts}', {

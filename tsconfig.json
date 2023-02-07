@@ -9,5 +9,11 @@
     "strictNullChecks": true,
     "resolveJsonModule": true,
     "types": ["vite/client"]
-  }
+  },
+  "exclude": [
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/playground/**",
+    "**/fixtures/**"
+  ]
 }

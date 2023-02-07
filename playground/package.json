@@ -6,6 +6,7 @@
   },
   "devDependencies": {
     "vite": "^4.0.0",
+    "vite-plugin-diff-compiler": "workspace:*",
     "vite-plugin-inspect": "^0.7.10"
   }
 }
