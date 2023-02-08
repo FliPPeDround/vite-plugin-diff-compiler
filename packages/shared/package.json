@@ -1,0 +1,35 @@
+{
+  "name": "@vite-plugin-diff-compiler/shared",
+  "type": "module",
+  "version": "1.0.1",
+  "packageManager": "pnpm@7.1.1",
+  "description": "internal utils shared across @vite-plugin-diff-compiler packages",
+  "license": "MIT",
+  "homepage": "https://github.com/FliPPeDround/vite-plugin-diff-compiler#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FliPPeDround/vite-plugin-diff-compiler.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FliPPeDround/vite-plugin-diff-compiler/issues"
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./*"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch src",
+    "test": "vitest"
+  }
+}

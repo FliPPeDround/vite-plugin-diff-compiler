@@ -33,7 +33,8 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch src",
-    "publish": "esno ./scripts/publish.ts"
+    "publish": "esno ./scripts/publish.ts",
+    "test": "vitest"
   },
   "devDependencies": {
     "@types/glob": "^8.0.1",
