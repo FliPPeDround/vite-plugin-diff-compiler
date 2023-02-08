@@ -36,6 +36,12 @@ importers:
       vitest: 0.25.7
 
   packages/core:
+    specifiers:
+      '@vite-plugin-diff-compiler/shared': workspace:*
+    dependencies:
+      '@vite-plugin-diff-compiler/shared': link:../shared
+
+  packages/shared:
     specifiers: {}
 
   packages/vscode:
@@ -44,6 +50,7 @@ importers:
       '@types/mocha': ^10.0.1
       '@types/node': 16.x
       '@types/vscode': ^1.75.0
+      '@vite-plugin-diff-compiler/shared': workspace:*
       '@vscode/test-electron': ^2.2.2
       glob: ^8.1.0
       mocha: ^10.1.0
@@ -52,6 +59,7 @@ importers:
       '@types/mocha': 10.0.1
       '@types/node': 16.18.12
       '@types/vscode': 1.75.0
+      '@vite-plugin-diff-compiler/shared': link:../shared
       '@vscode/test-electron': 2.2.3
       glob: 8.1.0
       mocha: 10.2.0

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getCommentsInfo } from '../src'
+import { getCodeInfo, getCommentsInfo } from '../src'
 
 describe('shared', () => {
   it('get []', () => {
@@ -32,5 +32,30 @@ describe('shared', () => {
         },
       ])
     }
+  })
+  it('get code info', () => {
+    const commentsInfo = [
+      {
+        commentType: 'script',
+        type: 'start',
+        mode: 'js',
+        start: 6,
+        end: 34,
+      },
+      {
+        commentType: 'script',
+        type: 'end',
+        mode: 'js',
+        start: 35,
+        end: 63,
+      },
+    ]
+    const codeInfo = getCodeInfo(commentsInfo)
+    expect(codeInfo).toStrictEqual([
+      {
+        start: 6,
+        end: 63,
+      },
+    ])
   })
 })

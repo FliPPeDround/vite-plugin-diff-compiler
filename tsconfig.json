@@ -8,7 +8,10 @@
     "strict": true,
     "strictNullChecks": true,
     "resolveJsonModule": true,
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "paths": {
+      "@vite-plugin-diff-compiler/shared": ["./packages/shared/src/index.ts"]
+    }
   },
   "exclude": [
     "**/dist/**",

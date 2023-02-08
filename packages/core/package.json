@@ -56,5 +56,8 @@
     "release": "bumpp && npm publish",
     "start": "esno src/index.ts",
     "test": "vitest"
+  },
+  "dependencies": {
+    "@vite-plugin-diff-compiler/shared": "workspace:*"
   }
 }
