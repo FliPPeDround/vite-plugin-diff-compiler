@@ -11,5 +11,5 @@ export function getRanges() {
   const commentsInfo = getCommentsInfo(code)
   const codeInfo = getCodeInfo(commentsInfo)
 
-  return codeInfo
+  return { codeInfo, editor }
 }
